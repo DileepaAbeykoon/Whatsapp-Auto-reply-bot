@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WhatsApp Bot Panel</title>
+<style>
+body{font-family:Arial;text-align:center;margin-top:60px}
+</style>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+<h2>WhatsApp Bot Dashboard</h2>
+<p id="status">Waiting...</p>
+<div id="qr"></div>
+
+<script>
+const socket = io();
+
+socket.on('message', msg => document.getElementById("status").innerHTML = msg);
+
+socket.on('qr', (qr) => {
+    document.getElementById("qr").innerHTML =
+    `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}" />`;
+});
+
+socket.on('ready', () => document.getElementById("status").innerHTML="Bot Connected ✔");
+</script>
+</body>
+</html>
